@@ -1,68 +1,129 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --color-primary: #007bff;
+  --color-primary-hover: #0056b3;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --color-background-body: #f4f4f4;
+  --color-background-container: #ffffff;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  --color-text-paragraph: #666;
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  --color-error: #dc3545;
+  --color-neutral-border: #ddd;
 }
 
 body {
-  margin: 0;
+  background-color: var(--color-background-body);
+}
+
+.container {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
+.form-section {
+  background-color: var(--color-background-container);
+  padding: 1rem;
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  border: 1px solid var(--color-neutral-border);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+select {
+  padding: 8px 12px;
+  border: 1px solid var(--color-neutral-border);
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input.error,
+select.error {
+  border-color: var(--color-error);
+}
+
+.error-message {
+  color: var(--color-error);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.submit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-background-container);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.submit-button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.cars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.car-card {
+  background-color: var(--color-background-container);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-neutral-border);
+  position: relative;
+}
+
+.car-card h3 {
+  overflow: hidden;
+  margin-right: 1.5rem;
+}
+
+.expiring-soon {
+  border: 1px solid var(--color-error);
+}
+
+.delete-button {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-paragraph);
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin: 5px 0;
+  color: var(--color-text-paragraph);
 }
