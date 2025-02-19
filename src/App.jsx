@@ -1,18 +1,10 @@
 import { useState } from "react";
-import Close from "./assets/Close";
-import Plus from "./assets/Plus";
+import CarForm from "./components/CarForm";
+import CarFilter from "./components/CarFilter";
+import CarList from "./components/CarList";
 
 function App() {
   const [cars, setCars] = useState([]);
-  const [newCar, setNewCar] = useState({
-    id: "",
-    brand: "",
-    model: "",
-    type: "",
-    year: "",
-    registrationExpiry: "",
-  });
-  const [errors, setErrors] = useState({});
   const [filterCriteria, setFilterCriteria] = useState({
     brand: "",
     model: "",
@@ -30,27 +22,7 @@ function App() {
     "Karavan",
   ];
 
-  const validateForm = () => {
-    const newErrors = {};
-    if (!newCar.brand) newErrors.brand = "Potrebno je unijeti marku auta";
-    if (!newCar.model) newErrors.model = "Potrebno je unijeti model auta";
-    if (!newCar.type) newErrors.type = "Potrebno je odabrati tip auta";
-    if (!newCar.year) newErrors.year = "Potrebno je unijeti godinu proizvodnje";
-    if (!newCar.registrationExpiry)
-      newErrors.registrationExpiry =
-        "Potrebno je unijeti datum isteka registracije";
-    return newErrors;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formErrors = validateForm();
-
-    if (Object.keys(formErrors).length > 0) {
-      setErrors(formErrors);
-      return;
-    }
-
+  const handleSubmit = (newCar) => {
     if (cars.length >= 10) {
       alert("Maksimalan broj automobila je 10!");
       return;
@@ -63,16 +35,6 @@ function App() {
         id: crypto.randomUUID(),
       },
     ]);
-
-    setNewCar({
-      id: "",
-      brand: "",
-      model: "",
-      type: "",
-      year: "",
-      registrationExpiry: "",
-    });
-    setErrors({});
   };
 
   const handleDelete = (id) => {
@@ -126,175 +88,20 @@ function App() {
   return (
     <div className="container">
       <div className="sections">
-        <div className="form-section">
-          <h2>Dodaj novo auto</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-grid">
-              <div className="form-group">
-                <input
-                  type="text"
-                  placeholder="Brend"
-                  value={newCar.brand}
-                  onChange={(e) =>
-                    setNewCar((prev) => ({ ...prev, brand: e.target.value }))
-                  }
-                  className={errors.brand ? "error" : ""}
-                />
-                {errors.brand && (
-                  <span className="error-message">{errors.brand}</span>
-                )}
-              </div>
-
-              <div className="form-group">
-                <input
-                  type="text"
-                  placeholder="Model"
-                  value={newCar.model}
-                  onChange={(e) =>
-                    setNewCar((prev) => ({ ...prev, model: e.target.value }))
-                  }
-                  className={errors.model ? "error" : ""}
-                />
-                {errors.model && (
-                  <span className="error-message">{errors.model}</span>
-                )}
-              </div>
-
-              <div className="form-group">
-                <select
-                  value={newCar.type}
-                  onChange={(e) =>
-                    setNewCar((prev) => ({ ...prev, type: e.target.value }))
-                  }
-                  className={errors.type ? "error" : ""}
-                >
-                  <option value="">Izaberi tip auta</option>
-                  {carTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-                {errors.type && (
-                  <span className="error-message">{errors.type}</span>
-                )}
-              </div>
-
-              <div className="form-group">
-                <input
-                  type="number"
-                  min={1900}
-                  placeholder="Godina proizvodnje"
-                  value={newCar.year}
-                  onChange={(e) =>
-                    setNewCar((prev) => ({ ...prev, year: e.target.value }))
-                  }
-                  className={errors.year ? "error" : ""}
-                />
-                {errors.year && (
-                  <span className="error-message">{errors.year}</span>
-                )}
-              </div>
-
-              <div className="form-group">
-                <input
-                  type="date"
-                  placeholder="Istek registracije"
-                  value={newCar.registrationExpiry}
-                  onChange={(e) =>
-                    setNewCar((prev) => ({
-                      ...prev,
-                      registrationExpiry: e.target.value,
-                    }))
-                  }
-                  className={errors.registrationExpiry ? "error" : ""}
-                />
-                {errors.registrationExpiry && (
-                  <span className="error-message">
-                    {errors.registrationExpiry}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <button type="submit" className="submit-button">
-              Dodaj <Plus />
-            </button>
-          </form>
-        </div>
-
-        <div className="filter-section">
-          <h2>Pretraži automobile</h2>
-          <form onSubmit={handleFilter} className="filter-form">
-            <div className="filter-inputs">
-              <input
-                type="text"
-                placeholder="Pretraži po marki"
-                value={filterCriteria.brand}
-                onChange={(e) =>
-                  setFilterCriteria((prev) => ({
-                    ...prev,
-                    brand: e.target.value,
-                  }))
-                }
-              />
-              <input
-                type="text"
-                placeholder="Pretraži po modelu"
-                value={filterCriteria.model}
-                onChange={(e) =>
-                  setFilterCriteria((prev) => ({
-                    ...prev,
-                    model: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="filter-buttons">
-              <button type="submit" className="filter-button">
-                Filtriraj
-              </button>
-              {isFiltering && (
-                <button
-                  type="button"
-                  onClick={clearFilter}
-                  className="clear-filter-button"
-                >
-                  Očisti filter
-                </button>
-              )}
-            </div>
-          </form>
-        </div>
+        <CarForm onSubmit={handleSubmit} carTypes={carTypes} />
+        <CarFilter
+          filterCriteria={filterCriteria}
+          setFilterCriteria={setFilterCriteria}
+          onFilter={handleFilter}
+          isFiltering={isFiltering}
+          onClearFilter={clearFilter}
+        />
       </div>
-      <div className="cars-grid">
-        {displayedCars.map((car) => (
-          <div
-            key={car.id}
-            className={`car-card ${
-              isRegistrationExpiringSoon(car.registrationExpiry)
-                ? "expiring-soon"
-                : ""
-            }`}
-          >
-            <button
-              className="delete-button"
-              onClick={() => handleDelete(car.id)}
-            >
-              <Close />
-            </button>
-            <h3>
-              {car.brand} {car.model}
-            </h3>
-            <p>Tip auta: {car.type}</p>
-            <p>Godina proizvodnje: {car.year}</p>
-            <p>
-              Registracija istječe:{" "}
-              {new Date(car.registrationExpiry).toLocaleDateString()}
-            </p>
-          </div>
-        ))}
-      </div>
+      <CarList
+        cars={displayedCars}
+        onDelete={handleDelete}
+        isRegistrationExpiringSoon={isRegistrationExpiringSoon}
+      />
     </div>
   );
 }
