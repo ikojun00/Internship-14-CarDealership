@@ -1,14 +1,16 @@
 :root {
-  --color-primary: #007bff;
-  --color-primary-hover: #0056b3;
+  --color-primary: #023e8a;
+  --color-primary-hover: #03045e;
+  --color-secondary-hover: #555;
 
-  --color-background-body: #f4f4f4;
-  --color-background-container: #ffffff;
+  --color-background-body: #0096c7;
+  --color-background-container: #caf0f8;
 
   --color-text-paragraph: #666;
+  --color-text-button: #fff;
 
   --color-error: #dc3545;
-  --color-neutral-border: #ddd;
+  --color-neutral-border: #0077b6;
 }
 
 body {
@@ -34,7 +36,7 @@ body {
   background-color: var(--color-background-container);
   padding: 1rem;
   border-radius: 8px;
-  border: 1px solid var(--color-neutral-border);
+  border: 2px solid var(--color-neutral-border);
 }
 
 .form-grid {
@@ -74,7 +76,7 @@ select.error {
   align-items: center;
   gap: 0.5rem;
   background-color: var(--color-primary);
-  color: var(--color-background-container);
+  color: var(--color-text-button);
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -95,7 +97,7 @@ select.error {
   background-color: var(--color-background-container);
   padding: 1rem;
   border-radius: 8px;
-  border: 1px solid var(--color-neutral-border);
+  border: 2px solid var(--color-neutral-border);
   position: relative;
 }
 
@@ -105,7 +107,7 @@ select.error {
 }
 
 .expiring-soon {
-  border: 1px solid var(--color-error);
+  border: 2px solid var(--color-error);
 }
 
 .delete-button {
@@ -122,7 +124,7 @@ select.error {
   background-color: var(--color-background-container);
   padding: 1rem;
   border-radius: 8px;
-  border: 1px solid var(--color-neutral-border);
+  border: 2px solid var(--color-neutral-border);
 }
 
 .filter-form {
@@ -144,7 +146,7 @@ select.error {
 
 .filter-button {
   background-color: var(--color-primary);
-  color: var(--color-background-container);
+  color: var(--color-text-button);
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -157,7 +159,7 @@ select.error {
 
 .clear-filter-button {
   background-color: var(--color-text-paragraph);
-  color: var(--color-background-container);
+  color: var(--color-text-button);
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -165,7 +167,7 @@ select.error {
 }
 
 .clear-filter-button:hover {
-  background-color: #555;
+  background-color: var(--color-secondary-hover);
 }
 
 h2 {
