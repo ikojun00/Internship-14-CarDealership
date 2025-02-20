@@ -1,16 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CarForm from "./components/CarForm";
 import CarFilter from "./components/CarFilter";
 import CarList from "./components/CarList";
 
 function App() {
-  const [cars, setCars] = useState([]);
+  const [cars, setCars] = useState(() => {
+    const savedCars = localStorage.getItem("cars");
+    return savedCars ? JSON.parse(savedCars) : [];
+  });
   const [filterCriteria, setFilterCriteria] = useState({
     brand: "",
     model: "",
   });
   const [filteredCars, setFilteredCars] = useState([]);
   const [isFiltering, setIsFiltering] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("cars", JSON.stringify(cars));
+  }, [cars]);
 
   const carTypes = [
     "Sedan",
@@ -56,27 +63,25 @@ function App() {
     return monthDiff <= 1;
   };
 
-  const handleFilter = (e) => {
-    e.preventDefault();
-    const filtered = cars.filter((car) => {
+  const filterCars = (cars, criteria) => {
+    if (!criteria.brand && !criteria.model) return cars;
+
+    return cars.filter((car) => {
       const brandMatch = car.brand
         .toLowerCase()
-        .includes(filterCriteria.brand.toLowerCase());
+        .includes(criteria.brand.toLowerCase());
       const modelMatch = car.model
         .toLowerCase()
-        .includes(filterCriteria.model.toLowerCase());
-
-      if (filterCriteria.brand && filterCriteria.model)
-        return brandMatch && modelMatch;
-      else if (filterCriteria.brand) return brandMatch;
-      else if (filterCriteria.model) return modelMatch;
-
-      return true;
+        .includes(criteria.model.toLowerCase());
+      return (!criteria.brand || brandMatch) && (!criteria.model || modelMatch);
     });
-
-    setFilteredCars(filtered);
-    setIsFiltering(true);
   };
+
+  useEffect(() => {
+    const filtered = filterCars(cars, filterCriteria);
+    setFilteredCars(filtered);
+    setIsFiltering(filterCriteria.brand || filterCriteria.model);
+  }, [filterCriteria, cars]);
 
   const clearFilter = () => {
     setFilterCriteria({ brand: "", model: "" });
@@ -92,7 +97,6 @@ function App() {
         <CarFilter
           filterCriteria={filterCriteria}
           setFilterCriteria={setFilterCriteria}
-          onFilter={handleFilter}
           isFiltering={isFiltering}
           onClearFilter={clearFilter}
         />
